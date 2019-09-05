@@ -10,7 +10,7 @@
 # Contributors
 @guifecle
 
-#GitHub DinkToPdf:
+# GitHub DinkToPdf:
 <b>https://github.com/rdvojmoc/DinkToPdf<b>
 
 - [ASP.NET Core](https://github.com/aspnet/Home)
