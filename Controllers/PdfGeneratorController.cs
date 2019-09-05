@@ -16,6 +16,28 @@ namespace PDF_API.Api.Controllers
             _converter = converter;
         }
 
+
+        /// <summary>
+        /// Pass in Body params Url for save in path passed the file.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/pdf/create
+        ///     {
+        ///         "page": "https://google.com",
+        ///         "localSave": "C:\\Users\\xxx\\Documents\\Projects\\PDF_API\\file.pdf"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param Page="https://site.com"></param>
+        /// <param localSave="C:\\local\\file.pdf"></param>
+        /// <returns></returns>
+        /// <response code="200" >Successfully created PDF document.</response>
+        /// <response code="500">Construction of PDF fail</response>
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         [HttpGet]
         [Route("create")]
         public IActionResult CreatePDF(pageSettings settings) {
@@ -53,6 +75,27 @@ namespace PDF_API.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Pass in Body params Url and path for download and save the file.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/pdf/download
+        ///     {
+        ///         "page": "https://google.com",
+        ///         "localSave": "C:\\Users\\xxx\\Documents\\Projects\\PDF_API\\file.pdf"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param Page="https://site.com"></param>
+        /// <param localSave="C:\\local\\file.pdf"></param>
+        /// <returns></returns>
+        /// <response code="200" >return file for download</response>
+        /// <response code="500">Construction of PDF fail</response>
+        [Produces("application/pdf")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         [HttpGet]
         [Route("download")]
         public IActionResult DownloadPDF(pageSettings settings) {
