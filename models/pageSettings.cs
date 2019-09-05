@@ -1,4 +1,4 @@
-namespace PDF_API.Domain
+namespace PDF_API.Api
 {
     public class pageSettings
     {
