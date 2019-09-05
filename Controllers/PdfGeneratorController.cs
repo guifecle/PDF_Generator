@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PDF_API.Api.Utility;
 
 namespace PDF_API.Api.Controllers
 {
-    [Route("api/pdfgererator")]
+    [Route("api/pdf")]
     [ApiController]
     public class PdfGeneratorController : Controller
     {
@@ -22,6 +17,7 @@ namespace PDF_API.Api.Controllers
         }
 
         [HttpGet]
+        [Route("create")]
         public IActionResult CreatePDF(pageSettings settings) {
         
             try 
@@ -50,6 +46,41 @@ namespace PDF_API.Api.Controllers
                 };
                 _converter.Convert(doc);
                 return Ok("Successfully created PDF document.");
+            }
+            catch(System.Exception) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Construction of PDF fail");
+            }
+        }
+
+        [HttpGet]
+        [Route("download")]
+        public IActionResult DownloadPDF(pageSettings settings) {
+        
+            try 
+            {
+                var globalSettings = new GlobalSettings
+                {
+                        Orientation = Orientation.Landscape,
+                        PaperSize = PaperKind.A3,
+                        DocumentTitle = "PDF Report",
+                        Out = settings.localSave
+                };
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                    Page = settings.page,
+                    UseExternalLinks = true,
+                    UseLocalLinks = true
+                };
+
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+                var file = _converter.Convert(doc);
+                return File(file, "application/pdf", "File.pdf");
             }
             catch(System.Exception) 
             {
